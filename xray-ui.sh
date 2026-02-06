@@ -119,7 +119,7 @@ before_show_menu() {
 }
 
 install() {
-    wget -N https://raw.githubusercontent.com/qist/xray-ui/main/install.sh && bash install.sh
+    wget -N https://raw.githubusercontent.com/wofagh/wui/main/install.sh && bash install.sh
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -157,13 +157,13 @@ update() {
         setenforce 0 >/dev/null 2>&1
     fi
     systemctl stop xray-ui
-    curl -sS -H "Accept: application/vnd.github.v3+json" -o "/tmp/tmp_file" 'https://api.github.com/repos/qist/xray-ui/releases/latest'
+    curl -sS -H "Accept: application/vnd.github.v3+json" -o "/tmp/tmp_file" 'https://api.github.com/repos/wofagh/wui/releases/latest'
     releases_version=($(sed 'y/,/\n/' "/tmp/tmp_file" | grep 'tag_name' | awk -F '"' '{print $4}'))
     rm /tmp/tmp_file -f
     mkdir -p /tmp/xray
     cd /tmp/xray
     if [ $# == 0 ]; then
-        wget --no-check-certificate -O /tmp/xray/xray-ui-linux-$(arch).tar.gz https://github.com/qist/xray-ui/releases/download/${releases_version}/xray-ui-linux-$(arch).tar.gz
+        wget --no-check-certificate -O /tmp/xray/xray-ui-linux-$(arch).tar.gz https://github.com/wofagh/wui/releases/download/${releases_version}/xray-ui-linux-$(arch).tar.gz
         if [[ $? -ne 0 ]]; then
             echo -e "${red}下载 xray-ui 失败，请确保你的服务器能够下载 Github 的文件${plain}"
             rm -f install.sh
@@ -171,7 +171,7 @@ update() {
         fi
     else
         last_version=$1
-        url="https://github.com/qist/xray-ui/releases/download/${releases_version}/xray-ui-linux-$(arch).tar.gz"
+        url="https://github.com/wofagh/wui/releases/download/${releases_version}/xray-ui-linux-$(arch).tar.gz"
         echo -e "开始安装 xray-ui v$1"
         wget --no-check-certificate -O /tmp/xray/xray-ui-linux-$(arch).tar.gz ${url}
         if [[ $? -ne 0 ]]; then
@@ -194,7 +194,7 @@ update() {
     fi
     chmod +x xray-ui bin/xray-linux-$(arch)
     \cp -f xray-ui.service /etc/systemd/system/
-    wget --no-check-certificate -O /usr/bin/xray-ui https://raw.githubusercontent.com/qist/xray-ui/main/xray-ui.sh
+    wget --no-check-certificate -O /usr/bin/xray-ui https://raw.githubusercontent.com/wofagh/wui/main/xray-ui.sh
     chmod +x /usr/bin/xray-ui
     #chmod +x /usr/local/xray-ui/xray-ui.sh
     systemctl daemon-reload
@@ -491,7 +491,7 @@ crontab() {
 }
 
 update_shell() {
-    wget --no-check-certificate -O /usr/bin/xray-ui https://raw.githubusercontent.com/qist/xray-ui/main/xray-ui.sh
+    wget --no-check-certificate -O /usr/bin/xray-ui https://raw.githubusercontent.com/wofagh/wui/main/xray-ui.sh
     if [[ $? != 0 ]]; then
         echo ""
         echo -e "${red}下载脚本失败，请检查本机能否连接 Github${plain}"
@@ -1058,7 +1058,7 @@ show_menu() {
     fi
     echo "------------------------------------------"
     uiV=$(/usr/local/xray-ui/xray-ui -v)
-    curl -sS -H "Accept: application/vnd.github.v3+json" -o "/tmp/tmp_file" 'https://api.github.com/repos/qist/xray-ui/releases/latest'
+    curl -sS -H "Accept: application/vnd.github.v3+json" -o "/tmp/tmp_file" 'https://api.github.com/repos/wofagh/wui/releases/latest'
     remoteV=($(sed 'y/,/\n/' "/tmp/tmp_file" | grep 'tag_name' | awk -F '"' '{print $4}'))
     rm /tmp/tmp_file -f
     localV=${uiV}
